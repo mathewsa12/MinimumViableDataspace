@@ -65,12 +65,12 @@ module "participant2" {
 module "participant3" {
   source                   = "./modules/participant"
   prefix                   = var.res_prefix
-  participant_name         = "company3"
+  participant_name         = "airplane"
   participant_region       = "us"
   participant_country      = "US"
-  resource_group           = "rg-${var.res_prefix}-company3"
+  resource_group           = "rg-${var.res_prefix}-airplane"
   application_sp_client_id = var.application_sp_client_id
   application_sp_object_id = var.application_sp_object_id
-  public_key_jwk_file      = "${path.module}/generated/company3/participant.public.jwk"
-  private_key_pem_file     = "${path.module}/generated/company3/participant.pem"
+  public_key_jwk_file      = "${path.module}/generated/airplane/participant.public.jwk"
+  private_key_pem_file     = "${path.module}/generated/airplane/participant.pem"
 }

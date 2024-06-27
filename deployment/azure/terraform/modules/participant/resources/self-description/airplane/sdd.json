@@ -15,7 +15,7 @@
                 "id": "did:compliance.gaia-x.eu",
                 "gx-participant:registrationNumber": {
                     "@type": "xsd:string",
-                    "@value": "company3"
+                    "@value": "airplane"
                 },
                 "gx-participant:headquarterAddress": {
                     "@type": "gx-participant:Address",

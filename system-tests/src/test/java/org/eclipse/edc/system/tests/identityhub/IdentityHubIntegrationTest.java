@@ -49,7 +49,7 @@ class IdentityHubIntegrationTest {
 
     private static final String COMPANY1_IDENTITY_HUB_URL = TestUtils.requiredPropOrEnv("COMPANY1_IDENTITY_HUB_URL", "http://localhost:7171/api/identity/identity-hub");
     private static final String COMPANY2_IDENTITY_HUB_URL = TestUtils.requiredPropOrEnv("COMPANY2_IDENTITY_HUB_URL", "http://localhost:7172/api/identity/identity-hub");
-    private static final String COMPANY3_IDENTITY_HUB_URL = TestUtils.requiredPropOrEnv("COMPANY3_IDENTITY_HUB_URL", "http://localhost:7173/api/identity/identity-hub");
+    private static final String AIRPLANE_IDENTITY_HUB_URL = TestUtils.requiredPropOrEnv("AIRPLANE_IDENTITY_HUB_URL", "http://localhost:7173/api/identity/identity-hub");
     private static final String AUTHORITY_IDENTITY_HUB_URL = TestUtils.requiredPropOrEnv("AUTHORITY_IDENTITY_HUB_URL", "http://localhost:7174/api/identity/identity-hub");
 
     private static final EdcHttpClient HTTP_CLIENT = testHttpClient();
@@ -93,7 +93,7 @@ class IdentityHubIntegrationTest {
             return Stream.of(
                     arguments(COMPANY1_IDENTITY_HUB_URL, "eu", "FR"),
                     arguments(COMPANY2_IDENTITY_HUB_URL, "eu", "DE"),
-                    arguments(COMPANY3_IDENTITY_HUB_URL, "us", "US")
+                    arguments(AIRPLANE_IDENTITY_HUB_URL, "us", "US")
             );
         }
     }

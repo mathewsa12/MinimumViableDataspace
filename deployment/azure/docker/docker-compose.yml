@@ -40,14 +40,14 @@ services:
       - ../resources/self-description/company2:/resources
 
   # EDC Connector to simulate a dataspace participant acting as a consumer which is located in US.
-  company3:
-    container_name: company3
+  airplane:
+    container_name: airplane
     build:
       context: ../../../launchers/connector
       args:
         JVM_ARGS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5007"
     env_file:
-      - company3.env
+      - airplane.env
     depends_on:
       - registration-service
     ports:
@@ -56,7 +56,7 @@ services:
       - "5007:5007"
       - "7173:7171"
     volumes:
-      - ../resources/self-description/company3:/resources
+      - ../resources/self-description/airplane:/resources
 
   # Dataspace registration service authority.
   registration-service:
@@ -105,15 +105,15 @@ services:
       - "7081:80"
     profiles: [ "ui" ]
 
-  # Data Dashboard (MVD UI) for participant company3
-  company3-datadashboard:
-    container_name: company3-datadashboard
+  # Data Dashboard (MVD UI) for participant airplane
+  airplane-datadashboard:
+    container_name: airplane-datadashboard
     build:
       context: ../../system-tests/DataDashboard
     volumes:
-      - ../resources/appconfig/company3:/usr/share/nginx/html/assets/config
+      - ../resources/appconfig/airplane:/usr/share/nginx/html/assets/config
     depends_on:
-      company3:
+      airplane:
         condition: service_healthy
     ports:
       - "7082:80"

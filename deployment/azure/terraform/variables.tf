@@ -28,7 +28,7 @@ variable "participants" {
       "region" : "eu"
     },
     {
-      "name" : "company3"
+      "name" : "airplane"
       "country" : "US"
       "region" : "us"
     }

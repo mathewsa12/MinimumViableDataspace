@@ -1,26 +1,26 @@
 {
-  "id": "did:web:did-server:company3",
+  "id": "did:web:did-server:airplane",
   "@context": [
     "https://www.w3.org/ns/did/v1",
     {
-      "@base": "did:web:did-server:company3"
+      "@base": "did:web:did-server:airplane"
     }
   ],
   "service": [
     {
       "id": "#identity-hub-url",
       "type": "IdentityHub",
-      "serviceEndpoint": "http://company3:7171/api/identity/identity-hub"
+      "serviceEndpoint": "http://airplane:7171/api/identity/identity-hub"
     },
     {
       "id": "#dsp-url",
       "type": "DSPMessaging",
-      "serviceEndpoint": "http://company3:8282/api/dsp"
+      "serviceEndpoint": "http://airplane:8282/api/dsp"
     },
     {
       "id": "#self-description-url",
       "type": "SelfDescription",
-      "serviceEndpoint": "http://company3:7171/api/identity/identity-hub/self-description"
+      "serviceEndpoint": "http://airplane:7171/api/identity/identity-hub/self-description"
     }
   ],
   "verificationMethod": [
