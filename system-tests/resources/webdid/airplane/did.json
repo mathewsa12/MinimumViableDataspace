@@ -30,10 +30,10 @@
       "type": "EcdsaSecp256k1VerificationKey2019",
       "publicKeyJwk": {
         "kty": "EC",
-        "kid": "uIowOgviyWueDwC2SjwEPnqsBVQkhIN3m6B0Ajs6rlU",
+        "kid": "8HV9yj6HCc4zfj7EENU_wNEKCKIVK7JiVxena63V8aM",
         "crv": "P-256",
-        "x": "T6VaLBE16dj2WcqcCaF6M1ORlaQhrT5bEhY8JUiDwRA",
-        "y": "hcVb4PnEmH2TMYbPk-ctwHx3o15JNIOhIYPBzR3iYf4"
+        "x": "lZoNbxoCx4p6qZb67eH_DtcZH1olsqlQ8J-4USVXmJo",
+        "y": "1K0ruDOe0h4O0bb99wWcwEnjnB-qcyrDgXWS0xxtOj4"
       }
     }
   ],
