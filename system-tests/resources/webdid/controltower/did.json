@@ -1,26 +1,26 @@
 {
-  "id": "did:web:did-server:company1",
+  "id": "did:web:did-server:controltower",
   "@context": [
     "https://www.w3.org/ns/did/v1",
     {
-      "@base": "did:web:did-server:company1"
+      "@base": "did:web:did-server:controltower"
     }
   ],
   "service": [
     {
       "id": "#identity-hub-url",
       "type": "IdentityHub",
-      "serviceEndpoint": "http://company1:7171/api/identity/identity-hub"
+      "serviceEndpoint": "http://controltower:7171/api/identity/identity-hub"
     },
     {
       "id": "#dsp-url",
       "type": "DSPMessaging",
-      "serviceEndpoint": "http://company1:8282/api/dsp"
+      "serviceEndpoint": "http://controltower:8282/api/dsp"
     },
     {
       "id": "#self-description-url",
       "type": "SelfDescription",
-      "serviceEndpoint": "http://company1:7171/api/identity/identity-hub/self-description"
+      "serviceEndpoint": "http://controltower:7171/api/identity/identity-hub/self-description"
     }
   ],
   "verificationMethod": [

@@ -1,7 +1,7 @@
 {
   "include": [
     {
-      "participant": "company1",
+      "participant": "controltower",
       "region": "eu",
       "country": "FR",
       "data_dashboard_theme": "theme-1"

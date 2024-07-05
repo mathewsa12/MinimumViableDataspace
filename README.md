@@ -37,7 +37,7 @@ The profile `ui` creates three Data Dashboards each connected to an EDC particip
 Each of these Data Dashboards uses the respective `app.config.json` file which is stored in the 
 respective directories:
 
-- [`./system-tests/resources/appconfig/company1/app.config.json`](./system-tests/resources/appconfig/company1/app.config.json)
+- [`./system-tests/resources/appconfig/controltower/app.config.json`](./system-tests/resources/appconfig/controltower/app.config.json)
 - [`./system-tests/resources/appconfig/bridge/app.config.json`](./system-tests/resources/appconfig/bridge/app.config.json)
 - [`./system-tests/resources/appconfig/airplane/app.config.json`](./system-tests/resources/appconfig/airplane/app.config.json)
 
@@ -50,7 +50,7 @@ standard scenario which can be optionally used with the local development enviro
 
 > Note: The container `cli-tools` will turn into the state `healthy` after registering successfully all participants and
 > will keep running as an entrypoint to the services created by Docker compose. This is useful for local development in order
-> to manually check commands against the participants (e.g. `company1`, `bridge`, `airplane`).
+> to manually check commands against the participants (e.g. `controltower`, `bridge`, `airplane`).
 
 Sample how to enter the container `cli-tools` and test a command manually.
 
@@ -66,8 +66,8 @@ Container:
 java -jar registration-service-cli.jar \
 >    -d=did:web:did-server:registration-service \
 >    --http-scheme \
->    -k=/resources/vault/company1/private-key.pem \
->    -c=did:web:did-server:company1 \
+>    -k=/resources/vault/controltower/private-key.pem \
+>    -c=did:web:did-server:controltower \
 >    participants get
 ```
 
@@ -75,7 +75,7 @@ Output (container)
 
 ```json
 {
-  "did": "did:web:did-server:company1",
+  "did": "did:web:did-server:controltower",
   "status": "ONBOARDED"
 }
 ```
@@ -84,8 +84,8 @@ Output (container)
 
 Prerequisite: create a test document manually:
 
-- Connect to the **local** blob storage account (provided by Azurite) of company1.
-    - Storage account name: `company1assets`, storage account key: `key1`.
+- Connect to the **local** blob storage account (provided by Azurite) of controltower.
+    - Storage account name: `controltowerassets`, storage account key: `key1`.
     - [Microsoft Azure Storage Explorer](https://azure.microsoft.com/features/storage-explorer/) can be used to connect to the local
       storage account on `localhost:10000`.
 - Create a container named `src-container`. (Container name is defined for Postman request `Publish Master Data`
@@ -96,7 +96,7 @@ Prerequisite: create a test document manually:
 All this can also be done using Azure CLI with the following lines from the root of the MVD repository:
 
 ```bash
-conn_str="DefaultEndpointsProtocol=http;AccountName=company1assets;AccountKey=key1;BlobEndpoint=http://127.0.0.1:10000/company1assets;"
+conn_str="DefaultEndpointsProtocol=http;AccountName=controltowerassets;AccountKey=key1;BlobEndpoint=http://127.0.0.1:10000/controltowerassets;"
 az storage container create --name src-container --connection-string $conn_str
 az storage blob upload -f ./deployment/azure/terraform/modules/participant/sample-data/text-document.txt --container-name src-container --name text-document.txt --connection-string $conn_str
 ```
@@ -118,11 +118,11 @@ Finished[#############################################################]  100.000
 
 The following steps initiate and complete a file transfer with the provided test document.
 
-- Open the website of company1 (e.g. <http://localhost:7080>) and verify the existence of two assets in the
+- Open the website of controltower (e.g. <http://localhost:7080>) and verify the existence of two assets in the
   section `Assets`.
 - Open the website of the bridge (e.g. <http://localhost:7081>) and verify six existing assets from all participants in
   the `Catalog Browser`.
-    - In the `Catalog Browser` click `Negotiate` for the asset `test-document_company1`.
+    - In the `Catalog Browser` click `Negotiate` for the asset `test-document_controltower`.
         - There should be a message `Contract Negotiation complete! Show me!` in less than a minute.
 - From the previous message click `Show me!`. If you missed it, switch manually to the section `Contracts`.
     - There should be a new contract. Click `Transfer` to initiate the transfer process.

@@ -47,7 +47,7 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 @ComponentTest
 class IdentityHubIntegrationTest {
 
-    private static final String COMPANY1_IDENTITY_HUB_URL = TestUtils.requiredPropOrEnv("COMPANY1_IDENTITY_HUB_URL", "http://localhost:7171/api/identity/identity-hub");
+    private static final String CONTROLTOWER_IDENTITY_HUB_URL = TestUtils.requiredPropOrEnv("CONTROLTOWER_IDENTITY_HUB_URL", "http://localhost:7171/api/identity/identity-hub");
     private static final String BRIDGE_IDENTITY_HUB_URL = TestUtils.requiredPropOrEnv("BRIDGE_IDENTITY_HUB_URL", "http://localhost:7172/api/identity/identity-hub");
     private static final String AIRPLANE_IDENTITY_HUB_URL = TestUtils.requiredPropOrEnv("AIRPLANE_IDENTITY_HUB_URL", "http://localhost:7173/api/identity/identity-hub");
     private static final String AUTHORITY_IDENTITY_HUB_URL = TestUtils.requiredPropOrEnv("AUTHORITY_IDENTITY_HUB_URL", "http://localhost:7174/api/identity/identity-hub");
@@ -91,7 +91,7 @@ class IdentityHubIntegrationTest {
         @Override
         public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
             return Stream.of(
-                    arguments(COMPANY1_IDENTITY_HUB_URL, "eu", "FR"),
+                    arguments(CONTROLTOWER_IDENTITY_HUB_URL, "eu", "FR"),
                     arguments(BRIDGE_IDENTITY_HUB_URL, "eu", "DE"),
                     arguments(AIRPLANE_IDENTITY_HUB_URL, "us", "US")
             );

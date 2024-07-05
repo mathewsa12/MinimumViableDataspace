@@ -2,14 +2,14 @@ version: "3.9"
 services:
 
   # EDC Connector to simulate a dataspace participant acting as a data provider which is located in EU.
-  company1:
-    container_name: company1
+  controltower:
+    container_name: controltower
     build:
       context: ../../../launchers/connector
       args:
         JVM_ARGS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
     env_file:
-      - company1.env
+      - controltower.env
     depends_on:
       - registration-service
     ports:
@@ -18,7 +18,7 @@ services:
       - "5005:5005"
       - "7171:7171"
     volumes:
-      - ../resources/self-description/company1:/resources
+      - ../resources/self-description/controltower:/resources
 
   # EDC Connector to simulate a dataspace participant acting as a data consumer which is located in EU.
   bridge:
@@ -76,15 +76,15 @@ services:
     volumes:
       - ../resources/self-description/registration-service:/resources
 
-  # Data Dashboard (MVD UI) for participant company1
-  company1-datadashboard:
-    container_name: company1-datadashboard
+  # Data Dashboard (MVD UI) for participant controltower
+  controltower-datadashboard:
+    container_name: controltower-datadashboard
     build:
       context: ../../system-tests/DataDashboard
     volumes:
-      - ../resources/appconfig/company1:/usr/share/nginx/html/assets/config
+      - ../resources/appconfig/controltower:/usr/share/nginx/html/assets/config
     depends_on:
-      company1:
+      controltower:
         condition: service_healthy
     ports:
       - "7080:80"

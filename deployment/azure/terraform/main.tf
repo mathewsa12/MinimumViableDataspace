@@ -39,14 +39,14 @@ module "dataspace" {
 module "participant1" {
   source                   = "./modules/participant"
   prefix                   = var.res_prefix
-  participant_name         = "company1"
+  participant_name         = "controltower"
   participant_region       = "eu"
   participant_country      = "FR"
-  resource_group           = "rg-${var.res_prefix}-company1"
+  resource_group           = "rg-${var.res_prefix}-controltower"
   application_sp_client_id = var.application_sp_client_id
   application_sp_object_id = var.application_sp_object_id
-  public_key_jwk_file      = "${path.module}/generated/company1/participant.public.jwk"
-  private_key_pem_file     = "${path.module}/generated/company1/participant.pem"
+  public_key_jwk_file      = "${path.module}/generated/controltower/participant.public.jwk"
+  private_key_pem_file     = "${path.module}/generated/controltower/participant.pem"
 }
 
 module "participant2" {

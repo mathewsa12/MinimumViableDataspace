@@ -58,7 +58,7 @@ public abstract class TransferSimulationUtils {
     public static final String TRANSFER_SUCCESSFUL = "Transfer successful";
 
     // Related to Postman seed data
-    public static final ContractOfferId CONTRACT_OFFER_ID = ContractOfferId.create("def-test-document_company1", "test-document_company1");
+    public static final ContractOfferId CONTRACT_OFFER_ID = ContractOfferId.create("def-test-document_controltower", "test-document_controltower");
 
     private TransferSimulationUtils() {
     }

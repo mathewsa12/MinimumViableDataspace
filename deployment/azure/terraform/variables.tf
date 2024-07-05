@@ -18,7 +18,7 @@ variable "application_sp_client_secret" {
 variable "participants" {
   default = [
     {
-      "name" : "company1"
+      "name" : "controltower"
       "country" : "FR"
       "region" : "eu"
     },

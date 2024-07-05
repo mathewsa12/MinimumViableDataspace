@@ -10,8 +10,8 @@ files as a data source and exposes the data via REST API.
 
 #### Json files as data source
 
-The deployment pipeline for each participant creates a file in common folder in a file share, with a prefix corresponding to each unique deployment. For example, when deploying participants `company1` and `bridge`, the files could be named:
-- `280-company1.json`
+The deployment pipeline for each participant creates a file in common folder in a file share, with a prefix corresponding to each unique deployment. For example, when deploying participants `controltower` and `bridge`, the files could be named:
+- `280-controltower.json`
 - `280-bridge.json`
 
 Here `280-` is an arbitrary prefix for one dataspace (in continuous delivery, one deployment).
@@ -20,11 +20,11 @@ Each file contains a serialized EDC `FederatedCacheNode` object, for example:
 
 ```json
 {
-  "name": "company1",
+  "name": "controltower",
   "supportedProtocols": [
     "ids-multipart"
   ],
-  "url": "http://280-company1-edc-mvd.eastus.azurecontainer.io:8282"
+  "url": "http://280-controltower-edc-mvd.eastus.azurecontainer.io:8282"
 }
 
 ```

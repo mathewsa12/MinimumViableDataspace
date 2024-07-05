@@ -2,29 +2,29 @@ version: "3.9"
 services:
 
   # EDC Connector to simulate a dataspace participant acting as a data provider which is located in EU.
-  company1:
-    container_name: company1
+  controltower:
+    container_name: controltower
     build:
       context: ../launchers/connector
       args:
         JVM_ARGS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
     environment:
-      EDC_DSP_CALLBACK_ADDRESS: http://company1:8282/api/dsp
-      EDC_CONNECTOR_NAME: company1
-      EDC_PARTICIPANT_ID: did:web:did-server:company1
+      EDC_DSP_CALLBACK_ADDRESS: http://controltower:8282/api/dsp
+      EDC_CONNECTOR_NAME: controltower
+      EDC_PARTICIPANT_ID: did:web:did-server:controltower
 
       EDC_BLOBSTORE_ENDPOINT_TEMPLATE: "http://azurite:10000/%s"
-      EDC_IDENTITY_DID_URL: did:web:did-server:company1
-      EDC_VAULT: /resources/vault/company1/company1-vault.properties
-      EDC_KEYSTORE: /resources/vault/company1/company1-keystore.jks
-      EDC_SELF_DESCRIPTION_DOCUMENT_PATH: /resources/self-description/company1/sdd.json
+      EDC_IDENTITY_DID_URL: did:web:did-server:controltower
+      EDC_VAULT: /resources/vault/controltower/controltower-vault.properties
+      EDC_KEYSTORE: /resources/vault/controltower/controltower-keystore.jks
+      EDC_SELF_DESCRIPTION_DOCUMENT_PATH: /resources/self-description/controltower/sdd.json
       EDC_KEYSTORE_PASSWORD: test123
       EDC_API_AUTH_KEY: ApiKeyDefaultValue
       EDC_IAM_DID_WEB_USE_HTTPS: "false"
       EDC_CATALOG_CACHE_EXECUTION_DELAY_SECONDS: 5
       EDC_CATALOG_CACHE_EXECUTION_PERIOD_SECONDS: 5
       EDC_CATALOG_CACHE_PARTITION_NUM_CRAWLERS: 5
-      EDC_DATAPLANE_TOKEN_VALIDATION_ENDPOINT: http://company1:8383/api/control/token
+      EDC_DATAPLANE_TOKEN_VALIDATION_ENDPOINT: http://controltower:8383/api/control/token
       REGISTRATION_SERVICE_API_URL: http://registration-service:8184/api/authority
       EDC_WEB_REST_CORS_ENABLED: "true"
       EDC_WEB_REST_CORS_HEADERS: "origin,content-type,accept,authorization,x-api-key"
@@ -129,11 +129,11 @@ services:
     working_dir: /
     environment:
       API_KEY: ApiKeyDefaultValue
-      EDC_HOST: company1:bridge:airplane
-      ASSETS_STORAGE_ACCOUNT: company1assets:bridgeassets:airplaneassets
-      PARTICIPANT_ID: company1:bridge:airplane
+      EDC_HOST: controltower:bridge:airplane
+      ASSETS_STORAGE_ACCOUNT: controltowerassets:bridgeassets:airplaneassets
+      PARTICIPANT_ID: controltower:bridge:airplane
     depends_on:
-      company1:
+      controltower:
         condition: service_healthy
       bridge:
         condition: service_healthy
@@ -156,7 +156,7 @@ services:
     ports:
       - 10000:10000
     environment:
-      AZURITE_ACCOUNTS: company1assets:key1;bridgeassets:key2;airplaneassets:key3
+      AZURITE_ACCOUNTS: controltowerassets:key1;bridgeassets:key2;airplaneassets:key3
 
   # Dataspace registration service authority.
   registration-service:
@@ -193,7 +193,7 @@ services:
       - ./resources:/resources
       - ../resources:/common-resources
     depends_on:
-      company1:
+      controltower:
         condition: service_healthy
       bridge:
         condition: service_healthy
@@ -202,15 +202,15 @@ services:
       registration-service:
         condition: service_healthy
 
-  # Data Dashboard (MVD UI) for participant company1
-  company1-datadashboard:
-    container_name: company1-datadashboard
+  # Data Dashboard (MVD UI) for participant controltower
+  controltower-datadashboard:
+    container_name: controltower-datadashboard
     build:
       context: ${MVD_UI_PATH}
     volumes:
-      - ./resources/appconfig/company1:/usr/share/nginx/html/assets/config
+      - ./resources/appconfig/controltower:/usr/share/nginx/html/assets/config
     depends_on:
-      company1:
+      controltower:
         condition: service_healthy
     ports:
       - "7080:80"
