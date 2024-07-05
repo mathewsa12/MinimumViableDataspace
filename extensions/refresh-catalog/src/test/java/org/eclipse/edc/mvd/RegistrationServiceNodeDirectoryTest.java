@@ -50,12 +50,12 @@ class RegistrationServiceNodeDirectoryTest {
     @Test
     void getAll() {
         var company1 = getParticipant();
-        var company2 = getParticipant();
+        var bridge = getParticipant();
         var node1 = node();
         var node2 = node();
-        when(registryApi.listParticipants()).thenReturn(ApiResult.success(List.of(company1, company2)));
+        when(registryApi.listParticipants()).thenReturn(ApiResult.success(List.of(company1, bridge)));
         when(resolver.toFederatedCacheNode(company1)).thenReturn(Result.success(node1));
-        when(resolver.toFederatedCacheNode(company2)).thenReturn(Result.success(node2));
+        when(resolver.toFederatedCacheNode(bridge)).thenReturn(Result.success(node2));
 
         var cacheNodes = directory.getAll();
         assertThat(cacheNodes)
@@ -66,11 +66,11 @@ class RegistrationServiceNodeDirectoryTest {
     @Test
     void getAll_failureResolvingDid() {
         var company1 = getParticipant();
-        var company2 = getParticipant();
+        var bridge = getParticipant();
         var node1 = node();
-        when(registryApi.listParticipants()).thenReturn(ApiResult.success(List.of(company1, company2)));
+        when(registryApi.listParticipants()).thenReturn(ApiResult.success(List.of(company1, bridge)));
         when(resolver.toFederatedCacheNode(company1)).thenReturn(Result.success(node1));
-        when(resolver.toFederatedCacheNode(company2)).thenReturn(Result.failure("failure"));
+        when(resolver.toFederatedCacheNode(bridge)).thenReturn(Result.failure("failure"));
 
         var cacheNodes = directory.getAll();
         assertThat(cacheNodes)

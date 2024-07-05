@@ -41,29 +41,29 @@ services:
       - ./resources:/resources
 
   # EDC Connector to simulate a dataspace participant acting as a data consumer which is located in EU.
-  company2:
-    container_name: company2
+  bridge:
+    container_name: bridge
     build:
       context: ../launchers/connector
       args:
         JVM_ARGS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006"
     environment:
-      EDC_DSP_CALLBACK_ADDRESS: http://company2:8282/api/dsp
-      EDC_CONNECTOR_NAME: company2
-      EDC_PARTICIPANT_ID: did:web:did-server:company2
+      EDC_DSP_CALLBACK_ADDRESS: http://bridge:8282/api/dsp
+      EDC_CONNECTOR_NAME: bridge
+      EDC_PARTICIPANT_ID: did:web:did-server:bridge
 
       EDC_BLOBSTORE_ENDPOINT_TEMPLATE: "http://azurite:10000/%s"
-      EDC_IDENTITY_DID_URL: did:web:did-server:company2
-      EDC_VAULT: /resources/vault/company2/company2-vault.properties
-      EDC_KEYSTORE: /resources/vault/company2/company2-keystore.jks
-      EDC_SELF_DESCRIPTION_DOCUMENT_PATH: /resources/self-description/company2/sdd.json
+      EDC_IDENTITY_DID_URL: did:web:did-server:bridge
+      EDC_VAULT: /resources/vault/bridge/bridge-vault.properties
+      EDC_KEYSTORE: /resources/vault/bridge/bridge-keystore.jks
+      EDC_SELF_DESCRIPTION_DOCUMENT_PATH: /resources/self-description/bridge/sdd.json
       EDC_KEYSTORE_PASSWORD: test123
       EDC_API_AUTH_KEY: ApiKeyDefaultValue
       EDC_IAM_DID_WEB_USE_HTTPS: "false"
       EDC_CATALOG_CACHE_EXECUTION_DELAY_SECONDS: 5
       EDC_CATALOG_CACHE_EXECUTION_PERIOD_SECONDS: 5
       EDC_CATALOG_CACHE_PARTITION_NUM_CRAWLERS: 5
-      EDC_DATAPLANE_TOKEN_VALIDATION_ENDPOINT: http://company2:8383/api/control/token
+      EDC_DATAPLANE_TOKEN_VALIDATION_ENDPOINT: http://bridge:8383/api/control/token
       REGISTRATION_SERVICE_API_URL: http://registration-service:8184/api/authority
       EDC_WEB_REST_CORS_ENABLED: "true"
       EDC_WEB_REST_CORS_HEADERS: "origin,content-type,accept,authorization,x-api-key"
@@ -129,13 +129,13 @@ services:
     working_dir: /
     environment:
       API_KEY: ApiKeyDefaultValue
-      EDC_HOST: company1:company2:airplane
-      ASSETS_STORAGE_ACCOUNT: company1assets:company2assets:airplaneassets
-      PARTICIPANT_ID: company1:company2:airplane
+      EDC_HOST: company1:bridge:airplane
+      ASSETS_STORAGE_ACCOUNT: company1assets:bridgeassets:airplaneassets
+      PARTICIPANT_ID: company1:bridge:airplane
     depends_on:
       company1:
         condition: service_healthy
-      company2:
+      bridge:
         condition: service_healthy
       airplane:
         condition: service_healthy
@@ -156,7 +156,7 @@ services:
     ports:
       - 10000:10000
     environment:
-      AZURITE_ACCOUNTS: company1assets:key1;company2assets:key2;airplaneassets:key3
+      AZURITE_ACCOUNTS: company1assets:key1;bridgeassets:key2;airplaneassets:key3
 
   # Dataspace registration service authority.
   registration-service:
@@ -195,7 +195,7 @@ services:
     depends_on:
       company1:
         condition: service_healthy
-      company2:
+      bridge:
         condition: service_healthy
       airplane:
         condition: service_healthy
@@ -216,15 +216,15 @@ services:
       - "7080:80"
     profiles: ["ui"]
 
-      # Data Dashboard (MVD UI) for participant company2
-  company2-datadashboard:
-    container_name: company2-datadashboard
+      # Data Dashboard (MVD UI) for participant bridge
+  bridge-datadashboard:
+    container_name: bridge-datadashboard
     build:
       context: ${MVD_UI_PATH}
     volumes:
-      - ./resources/appconfig/company2:/usr/share/nginx/html/assets/config
+      - ./resources/appconfig/bridge:/usr/share/nginx/html/assets/config
     depends_on:
-      company2:
+      bridge:
         condition: service_healthy
     ports:
       - "7081:80"

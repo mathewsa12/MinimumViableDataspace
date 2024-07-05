@@ -15,7 +15,7 @@
                 "id": "did:compliance.gaia-x.eu",
                 "gx-participant:registrationNumber": {
                     "@type": "xsd:string",
-                    "@value": "company2"
+                    "@value": "bridge"
                 },
                 "gx-participant:headquarterAddress": {
                     "@type": "gx-participant:Address",

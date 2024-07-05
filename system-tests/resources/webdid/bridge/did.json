@@ -1,26 +1,26 @@
 {
-  "id": "did:web:did-server:company2",
+  "id": "did:web:did-server:bridge",
   "@context": [
     "https://www.w3.org/ns/did/v1",
     {
-      "@base": "did:web:did-server:company2"
+      "@base": "did:web:did-server:bridge"
     }
   ],
   "service": [
     {
       "id": "#identity-hub-url",
       "type": "IdentityHub",
-      "serviceEndpoint": "http://company2:7171/api/identity/identity-hub"
+      "serviceEndpoint": "http://bridge:7171/api/identity/identity-hub"
     },
     {
       "id": "#dsp-url",
       "type": "DSPMessaging",
-      "serviceEndpoint": "http://company2:8282/api/dsp"
+      "serviceEndpoint": "http://bridge:8282/api/dsp"
     },
     {
       "id": "#self-description-url",
       "type": "SelfDescription",
-      "serviceEndpoint": "http://company2:7171/api/identity/identity-hub/self-description"
+      "serviceEndpoint": "http://bridge:7171/api/identity/identity-hub/self-description"
     }
   ],
   "verificationMethod": [

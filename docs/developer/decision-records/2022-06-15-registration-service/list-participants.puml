@@ -10,9 +10,9 @@ Participant "Dataspace\nDID Document" as DID0
 Participant "Registration Service" as RAPI
 Database "Participants\nStore" as Registry
 end box
-box "Company2 (, 3, etc.)" #LightCyan
-Participant "Company2\nDID Document" as DID2
-Participant "Company2\nEDC" as Company2
+box "Bridge (, 3, etc.)" #LightCyan
+Participant "Bridge\nDID Document" as DID2
+Participant "Bridge\nEDC" as Bridge
 end box
 
 Company1 -> DID0: Get registry endpoint
@@ -25,7 +25,7 @@ end
 RAPI -> RAPI: apply access policy
 RAPI -> Registry: query participants
 return participants (list of DID URIs)
-Company1 -> DID2: Get DID Document (contains URL of Company2 EDC Catalog Endpoint)
+Company1 -> DID2: Get DID Document (contains URL of Bridge EDC Catalog Endpoint)
 deactivate Company1
 
 @enduml

@@ -10,9 +10,9 @@ files as a data source and exposes the data via REST API.
 
 #### Json files as data source
 
-The deployment pipeline for each participant creates a file in common folder in a file share, with a prefix corresponding to each unique deployment. For example, when deploying participants `company1` and `company2`, the files could be named:
+The deployment pipeline for each participant creates a file in common folder in a file share, with a prefix corresponding to each unique deployment. For example, when deploying participants `company1` and `bridge`, the files could be named:
 - `280-company1.json`
-- `280-company2.json`
+- `280-bridge.json`
 
 Here `280-` is an arbitrary prefix for one dataspace (in continuous delivery, one deployment).
 

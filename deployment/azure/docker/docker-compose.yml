@@ -21,14 +21,14 @@ services:
       - ../resources/self-description/company1:/resources
 
   # EDC Connector to simulate a dataspace participant acting as a data consumer which is located in EU.
-  company2:
-    container_name: company2
+  bridge:
+    container_name: bridge
     build:
       context: ../../../launchers/connector
       args:
         JVM_ARGS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006"
     env_file:
-      - company2.env
+      - bridge.env
     depends_on:
       - registration-service
     ports:
@@ -37,7 +37,7 @@ services:
       - "5006:5006"
       - "7172:7171"
     volumes:
-      - ../resources/self-description/company2:/resources
+      - ../resources/self-description/bridge:/resources
 
   # EDC Connector to simulate a dataspace participant acting as a consumer which is located in US.
   airplane:
@@ -90,16 +90,16 @@ services:
       - "7080:80"
     profiles: [ "ui" ]
 
-    # Data Dashboard (MVD UI) for participant company2
+    # Data Dashboard (MVD UI) for participant bridge
 
-  company2-datadashboard:
-    container_name: company2-datadashboard
+  bridge-datadashboard:
+    container_name: bridge-datadashboard
     build:
       context: ../../system-tests/DataDashboard
     volumes:
-      - ../resources/appconfig/company2:/usr/share/nginx/html/assets/config
+      - ../resources/appconfig/bridge:/usr/share/nginx/html/assets/config
     depends_on:
-      company2:
+      bridge:
         condition: service_healthy
     ports:
       - "7081:80"

@@ -4,7 +4,7 @@ The system tests verify the end-to-end deployment of MVD, including:
 
 - That the Identity Hub contains Verifiable Credentials deployed by the CD pipeline.
 - That EDC Connectors can interact to populate a federated catalog, and copying a file from a provider (`company1`) to a
-  consumer (`company2`) blob storage account.
+  consumer (`bridge`) blob storage account.
 
 System tests are run both in local deployment (using docker compose) and in the Azure cloud.
 
@@ -46,7 +46,7 @@ Once completed, following services will start within their docker containers:
 
 - 3 `EDC Connectors`
     - _company1_
-    - _company2_
+    - _bridge_
     - _company3_
 - A `Registration Service`
 - A `HTTP Nginx Server` (to serve DID Documents)
@@ -238,11 +238,11 @@ cd <project-root>/deployment/azure
 
 ## Debugging MVD locally
 
-Follow the instructions in the previous sections to run an MVD with a consumer (`company2`) and provider (`company1`)
+Follow the instructions in the previous sections to run an MVD with a consumer (`bridge`) and provider (`company1`)
 locally using `docker compose`.
 
-Once running, you can use a Java debugger to connect to the consumer (`company2`, port 5006) and provider (`company1`,
-port 5005) instances. If you are using IntelliJ you can use the provided "EDC company1", "EDC company2" or "EDC
+Once running, you can use a Java debugger to connect to the consumer (`bridge`, port 5006) and provider (`company1`,
+port 5005) instances. If you are using IntelliJ you can use the provided "EDC company1", "EDC bridge" or "EDC
 company3" [runtime configurations](../.run) to remote debug the connector instances.
 
 Alternately, when running MVD with [cloud resources](README.md#test-execution-using-cloud-resources), you could use

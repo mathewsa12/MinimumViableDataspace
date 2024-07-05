@@ -52,14 +52,14 @@ module "participant1" {
 module "participant2" {
   source                   = "./modules/participant"
   prefix                   = var.res_prefix
-  participant_name         = "company2"
+  participant_name         = "bridge"
   participant_region       = "eu"
   participant_country      = "DE"
-  resource_group           = "rg-${var.res_prefix}-company2"
+  resource_group           = "rg-${var.res_prefix}-bridge"
   application_sp_client_id = var.application_sp_client_id
   application_sp_object_id = var.application_sp_object_id
-  public_key_jwk_file      = "${path.module}/generated/company2/participant.public.jwk"
-  private_key_pem_file     = "${path.module}/generated/company2/participant.pem"
+  public_key_jwk_file      = "${path.module}/generated/bridge/participant.public.jwk"
+  private_key_pem_file     = "${path.module}/generated/bridge/participant.pem"
 }
 
 module "participant3" {

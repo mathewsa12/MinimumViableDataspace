@@ -2,7 +2,7 @@
   "apiKey": "ApiKeyDefaultValue",
   "managementApiUrl": "http://localhost:9192/api/management",
   "catalogUrl": "http://localhost:9192/api/management",
-  "storageAccount": "company2assets",
+  "storageAccount": "bridgeassets",
   "storageExplorerLinkTemplate": "storageexplorer://v=1",
   "theme": "theme-2"
 }

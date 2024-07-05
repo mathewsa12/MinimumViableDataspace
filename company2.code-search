@@ -1,0 +1,277 @@
+# Query: company2
+# ContextLines: 1
+
+87 results - 24 files
+
+README.md:
+   40  - [`./system-tests/resources/appconfig/company1/app.config.json`](./system-tests/resources/appconfig/company1/app.config.json)
+   41: - [`./system-tests/resources/appconfig/company2/app.config.json`](./system-tests/resources/appconfig/company2/app.config.json)
+   42  - [`./system-tests/resources/appconfig/company3/app.config.json`](./system-tests/resources/appconfig/company3/app.config.json)
+
+   52  > will keep running as an entrypoint to the services created by Docker compose. This is useful for local development in order
+   53: > to manually check commands against the participants (e.g. `company1`, `company2`, `company3`).
+   54  
+
+  122    section `Assets`.
+  123: - Open the website of the company2 (e.g. <http://localhost:7081>) and verify six existing assets from all participants in
+  124    the `Catalog Browser`.
+
+  130      - There should be a message `Transfer [id] complete! Show me!` in less than a minute. (Where `id` is a UUID.)
+  131: - To verify the successful transfer the Storage Explorer can be used to look into the storage account of `company2`.
+  132      - Storage account name and key is set in `system-tests/docker-compose.yml` for the service `azurite`. Default name
+  133:       is `company2assets`, key is `key2`.
+  134      - There should be new container in the storage account containing two files `.complete` and `text-document.txt`.
+
+deployment/azure/generate_keys.sh:
+  2  
+  3: participants=("company1" "company2" "airplane")
+  4  
+
+deployment/azure/docker/company2.env:
+   1: EDC_DSP_CALLBACK_ADDRESS="http://company2:8282/api/dsp"
+   2: EDC_CONNECTOR_NAME="company2"
+   3  
+
+   7  
+   8: EDC_DATAPLANE_TOKEN_VALIDATION_ENDPOINT="http://company2:8383/api/control/token"
+   9  
+
+  17  # these are set dynamically
+  18: EDC_PARTICIPANT_ID="did:web:mvdlocalcompany2did.z13.web.core.windows.net"
+  19: EDC_IDENTITY_DID_URL="did:web:mvdlocalcompany2did.z13.web.core.windows.net"
+  20: EDC_VAULT_NAME="kvmvdlocalcompany2"
+  21  EDC_VAULT_CLIENTSECRET="MeK8Q~Enk6wYet11HHFAJggZWjuQZFP2XeTxFc4T"
+
+deployment/azure/docker/docker-compose.yml:
+   23    # EDC Connector to simulate a dataspace participant acting as a data consumer which is located in EU.
+   24:   company2:
+   25:     container_name: company2
+   26      build:
+
+   30      env_file:
+   31:       - company2.env
+   32      depends_on:
+
+   39      volumes:
+   40:       - ../resources/self-description/company2:/resources
+   41  
+
+   92  
+   93:     # Data Dashboard (MVD UI) for participant company2
+   94  
+   95:   company2-datadashboard:
+   96:     container_name: company2-datadashboard
+   97      build:
+
+   99      volumes:
+  100:       - ../resources/appconfig/company2:/usr/share/nginx/html/assets/config
+  101      depends_on:
+  102:       company2:
+  103          condition: service_healthy
+
+deployment/azure/resources/appconfig/company2/app.config.json:
+  2    "dataManagementApiUrl": "http://localhost:9192/api/management",
+  3:   "storageAccount": "company2assets",
+  4    "storageExplorerLinkTemplate": "storageexplorer://v=1",
+
+deployment/azure/resources/self-description/company2/sdd.json:
+  17                      "@type": "xsd:string",
+  18:                     "@value": "company2"
+  19                  },
+
+deployment/azure/terraform/main.tf:
+  54    prefix                   = var.res_prefix
+  55:   participant_name         = "company2"
+  56    participant_region       = "eu"
+  57    participant_country      = "DE"
+  58:   resource_group           = "rg-${var.res_prefix}-company2"
+  59    application_sp_client_id = var.application_sp_client_id
+  60    application_sp_object_id = var.application_sp_object_id
+  61:   public_key_jwk_file      = "${path.module}/generated/company2/participant.public.jwk"
+  62:   private_key_pem_file     = "${path.module}/generated/company2/participant.pem"
+  63  }
+
+deployment/azure/terraform/variables.tf:
+  25      {
+  26:       "name" : "company2"
+  27        "country" : "DE"
+
+deployment/azure/terraform/modules/participant/resources/self-description/company2/sdd.json:
+  17                      "@type": "xsd:string",
+  18:                     "@value": "company2"
+  19                  },
+
+docs/developer/decision-records/2022-04-28-federated-catalog/README.md:
+  12  
+  13: The deployment pipeline for each participant creates a file in common folder in a file share, with a prefix corresponding to each unique deployment. For example, when deploying participants `company1` and `company2`, the files could be named:
+  14  - `280-company1.json`
+  15: - `280-company2.json`
+  16  
+
+docs/developer/decision-records/2022-06-15-registration-service/list-participants.puml:
+  12  end box
+  13: box "Company2 (, 3, etc.)" #LightCyan
+  14: Participant "Company2\nDID Document" as DID2
+  15: Participant "Company2\nEDC" as Company2
+  16  end box
+
+  27  return participants (list of DID URIs)
+  28: Company1 -> DID2: Get DID Document (contains URL of Company2 EDC Catalog Endpoint)
+  29  deactivate Company1
+
+docs/developer/decision-records/2022-06-15-registration-service/README.md:
+  81  2. _The Dataspace Authority_, which manages Dataspace memberships
+  82: 3. _Company2_, _Company3_, etc., Dataspace Participants
+  83  
+
+extensions/refresh-catalog/src/test/java/org/eclipse/edc/mvd/RegistrationServiceNodeDirectoryTest.java:
+  52          var company1 = getParticipant();
+  53:         var company2 = getParticipant();
+  54          var node1 = node();
+  55          var node2 = node();
+  56:         when(registryApi.listParticipants()).thenReturn(ApiResult.success(List.of(company1, company2)));
+  57          when(resolver.toFederatedCacheNode(company1)).thenReturn(Result.success(node1));
+  58:         when(resolver.toFederatedCacheNode(company2)).thenReturn(Result.success(node2));
+  59  
+
+  68          var company1 = getParticipant();
+  69:         var company2 = getParticipant();
+  70          var node1 = node();
+  71:         when(registryApi.listParticipants()).thenReturn(ApiResult.success(List.of(company1, company2)));
+  72          when(resolver.toFederatedCacheNode(company1)).thenReturn(Result.success(node1));
+  73:         when(resolver.toFederatedCacheNode(company2)).thenReturn(Result.failure("failure"));
+  74  
+
+resources/participants.json:
+   9      {
+  10:       "participant": "company2",
+  11        "region": "eu",
+
+system-tests/docker-compose.yml:
+   43    # EDC Connector to simulate a dataspace participant acting as a data consumer which is located in EU.
+   44:   company2:
+   45:     container_name: company2
+   46      build:
+
+   50      environment:
+   51:       EDC_DSP_CALLBACK_ADDRESS: http://company2:8282/api/dsp
+   52:       EDC_CONNECTOR_NAME: company2
+   53:       EDC_PARTICIPANT_ID: did:web:did-server:company2
+   54  
+   55        EDC_BLOBSTORE_ENDPOINT_TEMPLATE: "http://azurite:10000/%s"
+   56:       EDC_IDENTITY_DID_URL: did:web:did-server:company2
+   57:       EDC_VAULT: /resources/vault/company2/company2-vault.properties
+   58:       EDC_KEYSTORE: /resources/vault/company2/company2-keystore.jks
+   59:       EDC_SELF_DESCRIPTION_DOCUMENT_PATH: /resources/self-description/company2/sdd.json
+   60        EDC_KEYSTORE_PASSWORD: test123
+
+   65        EDC_CATALOG_CACHE_PARTITION_NUM_CRAWLERS: 5
+   66:       EDC_DATAPLANE_TOKEN_VALIDATION_ENDPOINT: http://company2:8383/api/control/token
+   67        REGISTRATION_SERVICE_API_URL: http://registration-service:8184/api/authority
+
+  131        API_KEY: ApiKeyDefaultValue
+  132:       EDC_HOST: company1:company2:airplane
+  133:       ASSETS_STORAGE_ACCOUNT: company1assets:company2assets:airplaneassets
+  134:       PARTICIPANT_ID: company1:company2:airplane
+  135      depends_on:
+
+  137          condition: service_healthy
+  138:       company2:
+  139          condition: service_healthy
+
+  158      environment:
+  159:       AZURITE_ACCOUNTS: company1assets:key1;company2assets:key2;airplaneassets:key3
+  160  
+
+  197          condition: service_healthy
+  198:       company2:
+  199          condition: service_healthy
+
+  218  
+  219:       # Data Dashboard (MVD UI) for participant company2
+  220:   company2-datadashboard:
+  221:     container_name: company2-datadashboard
+  222      build:
+
+  224      volumes:
+  225:       - ./resources/appconfig/company2:/usr/share/nginx/html/assets/config
+  226      depends_on:
+  227:       company2:
+  228          condition: service_healthy
+
+system-tests/README.md:
+    6  - That EDC Connectors can interact to populate a federated catalog, and copying a file from a provider (`company1`) to a
+    7:   consumer (`company2`) blob storage account.
+    8  
+
+   48      - _company1_
+   49:     - _company2_
+   50      - _company3_
+
+  240  
+  241: Follow the instructions in the previous sections to run an MVD with a consumer (`company2`) and provider (`company1`)
+  242  locally using `docker compose`.
+  243  
+  244: Once running, you can use a Java debugger to connect to the consumer (`company2`, port 5006) and provider (`company1`,
+  245: port 5005) instances. If you are using IntelliJ you can use the provided "EDC company1", "EDC company2" or "EDC
+  246  company3" [runtime configurations](../.run) to remote debug the connector instances.
+
+system-tests/resources/appconfig/company2/app.config.json:
+  4    "catalogUrl": "http://localhost:9192/api/management",
+  5:   "storageAccount": "company2assets",
+  6    "storageExplorerLinkTemplate": "storageexplorer://v=1",
+
+system-tests/resources/cli-tools/entrypoint.sh:
+  66  # $participants will contain participants and regions in a shell readable format e.g.:
+  67: # 'company1' 'eu' \n 'company2' 'eu' \n 'airplane' 'us'
+  68  participants=$(jq -r '.include | map([.participant, .region])[] | @sh' /common-resources/participants.json)
+
+system-tests/resources/self-description/company2/sdd.json:
+  17          "@type": "xsd:string",
+  18:         "@value": "company2"
+  19        },
+
+system-tests/resources/vault/company2/company2-vault.properties:
+  4  40a5ea90-9e72-44bd-9b42-3808e35b7c3c-container={"edctype"\:"dataspaceconnector\:azuretoken","sas"\:"?sv\=2022-11-02&se\=2023-06-23T13%3A28%3A16Z&sr\=c&sp\=w&sig\=L1tvXtRtCYs8XvfBULfGIlevabqzJlDuVIqWVDQHI%2F0%3D","expiration"\:1687526896799}
+  5: company2assets-key1=key2
+  6  e5bbc3ab-1b4c-42e8-b55d-be745f7c654e-container={"edctype"\:"dataspaceconnector\:azuretoken","sas"\:"?sv\=2022-11-02&se\=2023-06-23T13%3A37%3A16Z&sr\=c&sp\=w&sig\=GSXMzp2lMaAvtRvhAY9NuTvNWD0FsgnRLHOXnxLgXa8%3D","expiration"\:1687527436573}
+
+system-tests/resources/webdid/company2/did.json:
+   1  {
+   2:   "id": "did:web:did-server:company2",
+   3    "@context": [
+
+   5      {
+   6:       "@base": "did:web:did-server:company2"
+   7      }
+
+  12        "type": "IdentityHub",
+  13:       "serviceEndpoint": "http://company2:7171/api/identity/identity-hub"
+  14      },
+
+  17        "type": "DSPMessaging",
+  18:       "serviceEndpoint": "http://company2:8282/api/dsp"
+  19      },
+
+  22        "type": "SelfDescription",
+  23:       "serviceEndpoint": "http://company2:7171/api/identity/identity-hub/self-description"
+  24      }
+
+system-tests/src/test/java/org/eclipse/edc/system/tests/identityhub/IdentityHubIntegrationTest.java:
+  50      private static final String COMPANY1_IDENTITY_HUB_URL = TestUtils.requiredPropOrEnv("COMPANY1_IDENTITY_HUB_URL", "http://localhost:7171/api/identity/identity-hub");
+  51:     private static final String COMPANY2_IDENTITY_HUB_URL = TestUtils.requiredPropOrEnv("COMPANY2_IDENTITY_HUB_URL", "http://localhost:7172/api/identity/identity-hub");
+  52      private static final String AIRPLANE_IDENTITY_HUB_URL = TestUtils.requiredPropOrEnv("AIRPLANE_IDENTITY_HUB_URL", "http://localhost:7173/api/identity/identity-hub");
+
+  94                      arguments(COMPANY1_IDENTITY_HUB_URL, "eu", "FR"),
+  95:                     arguments(COMPANY2_IDENTITY_HUB_URL, "eu", "DE"),
+  96                      arguments(AIRPLANE_IDENTITY_HUB_URL, "us", "US")
+
+system-tests/src/test/java/org/eclipse/edc/system/tests/local/BlobTransferIntegrationTest.java:
+  42      public static final String LOCAL_SOURCE_BLOB_STORE_ACCOUNT_KEY = "key1";
+  43:     public static final String LOCAL_DESTINATION_BLOB_STORE_ACCOUNT = "company2assets";
+  44      public static final String LOCAL_DESTINATION_BLOB_STORE_ACCOUNT_KEY = "key2";
+
+system-tests/src/test/java/org/eclipse/edc/system/tests/local/TransferLocalSimulation.java:
+  37      public static final String CONSUMER_MANAGEMENT_URL = TestUtils.requiredPropOrEnv("CONSUMER_MANAGEMENT_URL", "http://localhost:9192") + "/api/management";
+  38:     public static final String CONSUMER_ID = "did:web:did-server:company2";
+  39      public static final String PROVIDER_ID = "did:web:did-server:company1";

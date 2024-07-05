@@ -38,8 +38,8 @@ Each of these Data Dashboards uses the respective `app.config.json` file which i
 respective directories:
 
 - [`./system-tests/resources/appconfig/company1/app.config.json`](./system-tests/resources/appconfig/company1/app.config.json)
-- [`./system-tests/resources/appconfig/company2/app.config.json`](./system-tests/resources/appconfig/company2/app.config.json)
-- [`./system-tests/resources/appconfig/company3/app.config.json`](./system-tests/resources/appconfig/company3/app.config.json)
+- [`./system-tests/resources/appconfig/bridge/app.config.json`](./system-tests/resources/appconfig/bridge/app.config.json)
+- [`./system-tests/resources/appconfig/airplane/app.config.json`](./system-tests/resources/appconfig/airplane/app.config.json)
 
 That's it to run the local development environment. The following section `Run A Standard Scenario Locally` describes a
 standard scenario which can be optionally used with the local development environment.
@@ -50,7 +50,7 @@ standard scenario which can be optionally used with the local development enviro
 
 > Note: The container `cli-tools` will turn into the state `healthy` after registering successfully all participants and
 > will keep running as an entrypoint to the services created by Docker compose. This is useful for local development in order
-> to manually check commands against the participants (e.g. `company1`, `company2`, `company3`).
+> to manually check commands against the participants (e.g. `company1`, `bridge`, `airplane`).
 
 Sample how to enter the container `cli-tools` and test a command manually.
 
@@ -120,7 +120,7 @@ The following steps initiate and complete a file transfer with the provided test
 
 - Open the website of company1 (e.g. <http://localhost:7080>) and verify the existence of two assets in the
   section `Assets`.
-- Open the website of the company2 (e.g. <http://localhost:7081>) and verify six existing assets from all participants in
+- Open the website of the bridge (e.g. <http://localhost:7081>) and verify six existing assets from all participants in
   the `Catalog Browser`.
     - In the `Catalog Browser` click `Negotiate` for the asset `test-document_company1`.
         - There should be a message `Contract Negotiation complete! Show me!` in less than a minute.
@@ -128,9 +128,9 @@ The following steps initiate and complete a file transfer with the provided test
     - There should be a new contract. Click `Transfer` to initiate the transfer process.
     - A dialog should open. Here, select as destination `AzureStorage` and click `Start transfer`.
     - There should be a message `Transfer [id] complete! Show me!` in less than a minute. (Where `id` is a UUID.)
-- To verify the successful transfer the Storage Explorer can be used to look into the storage account of `company2`.
+- To verify the successful transfer the Storage Explorer can be used to look into the storage account of `bridge`.
     - Storage account name and key is set in `system-tests/docker-compose.yml` for the service `azurite`. Default name
-      is `company2assets`, key is `key2`.
+      is `bridgeassets`, key is `key2`.
     - There should be new container in the storage account containing two files `.complete` and `text-document.txt`.
 
 ## Contributing

@@ -23,7 +23,7 @@ variable "participants" {
       "region" : "eu"
     },
     {
-      "name" : "company2"
+      "name" : "bridge"
       "country" : "DE"
       "region" : "eu"
     },
