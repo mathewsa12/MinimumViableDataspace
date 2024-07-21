@@ -17,3 +17,8 @@ Web DIDs are available under ```system-tests/resources/webdid folder```. The pub
 ```docker run -i danedmunds/pem-to-jwk:1.2.1 --public --pretty < system-tests/resources/vault/controltower/public-key.pem > key.public.jwk```
 
 Run the command and copy over the jwk into the respective .did file 
+
+keystore passwords -- test123
+
+
+to transfer a different file type -- replace instances of text-document.txt with your file name/ type.

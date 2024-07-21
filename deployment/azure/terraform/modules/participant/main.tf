@@ -105,11 +105,11 @@ resource "azurerm_storage_container" "assets_container" {
 }
 
 resource "azurerm_storage_blob" "testfile" {
-  name                   = "text-document.txt"
+  name                   = "text-document.pdf"
   storage_account_name   = azurerm_storage_account.assets.name
   storage_container_name = azurerm_storage_container.assets_container.name
   type                   = "Block"
-  source                 = "${path.module}/sample-data/text-document.txt"
+  source                 = "${path.module}/sample-data/text-document.pdf"
 }
 
 resource "azurerm_storage_blob" "testfile2" {
@@ -117,5 +117,5 @@ resource "azurerm_storage_blob" "testfile2" {
   storage_account_name   = azurerm_storage_account.assets.name
   storage_container_name = azurerm_storage_container.assets_container.name
   type                   = "Block"
-  source                 = "${path.module}/sample-data/text-document.txt"
+  source                 = "${path.module}/sample-data/text-document.pdf"
 }
