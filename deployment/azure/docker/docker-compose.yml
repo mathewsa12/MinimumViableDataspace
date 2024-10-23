@@ -2,14 +2,14 @@ version: "3.9"
 services:
 
   # EDC Connector to simulate a dataspace participant acting as a data provider which is located in EU.
-  controltower:
-    container_name: controltower
+  service:
+    container_name: service
     build:
       context: ../../../launchers/connector
       args:
         JVM_ARGS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
     env_file:
-      - controltower.env
+      - service.env
     depends_on:
       - registration-service
     ports:
@@ -18,17 +18,17 @@ services:
       - "5005:5005"
       - "7171:7171"
     volumes:
-      - ../resources/self-description/controltower:/resources
+      - ../resources/self-description/service:/resources
 
   # EDC Connector to simulate a dataspace participant acting as a data consumer which is located in EU.
-  bridge:
-    container_name: bridge
+  versicherung:
+    container_name: versicherung
     build:
       context: ../../../launchers/connector
       args:
         JVM_ARGS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006"
     env_file:
-      - bridge.env
+      - versicherung.env
     depends_on:
       - registration-service
     ports:
@@ -37,17 +37,17 @@ services:
       - "5006:5006"
       - "7172:7171"
     volumes:
-      - ../resources/self-description/bridge:/resources
+      - ../resources/self-description/versicherung:/resources
 
   # EDC Connector to simulate a dataspace participant acting as a consumer which is located in US.
-  airplane:
-    container_name: airplane
+  flughafen:
+    container_name: flughafen
     build:
       context: ../../../launchers/connector
       args:
         JVM_ARGS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5007"
     env_file:
-      - airplane.env
+      - flughafen.env
     depends_on:
       - registration-service
     ports:
@@ -56,7 +56,7 @@ services:
       - "5007:5007"
       - "7173:7171"
     volumes:
-      - ../resources/self-description/airplane:/resources
+      - ../resources/self-description/flughafen:/resources
 
   # Dataspace registration service authority.
   registration-service:
@@ -76,44 +76,44 @@ services:
     volumes:
       - ../resources/self-description/registration-service:/resources
 
-  # Data Dashboard (MVD UI) for participant controltower
-  controltower-datadashboard:
-    container_name: controltower-datadashboard
+  # Data Dashboard (MVD UI) for participant service
+  service-datadashboard:
+    container_name: service-datadashboard
     build:
       context: ../../system-tests/DataDashboard
     volumes:
-      - ../resources/appconfig/controltower:/usr/share/nginx/html/assets/config
+      - ../resources/appconfig/service:/usr/share/nginx/html/assets/config
     depends_on:
-      controltower:
+      service:
         condition: service_healthy
     ports:
       - "7080:80"
     profiles: [ "ui" ]
 
-    # Data Dashboard (MVD UI) for participant bridge
+    # Data Dashboard (MVD UI) for participant versicherung
 
-  bridge-datadashboard:
-    container_name: bridge-datadashboard
+  versicherung-datadashboard:
+    container_name: versicherung-datadashboard
     build:
       context: ../../system-tests/DataDashboard
     volumes:
-      - ../resources/appconfig/bridge:/usr/share/nginx/html/assets/config
+      - ../resources/appconfig/versicherung:/usr/share/nginx/html/assets/config
     depends_on:
-      bridge:
+      versicherung:
         condition: service_healthy
     ports:
       - "7081:80"
     profiles: [ "ui" ]
 
-  # Data Dashboard (MVD UI) for participant airplane
-  airplane-datadashboard:
-    container_name: airplane-datadashboard
+  # Data Dashboard (MVD UI) for participant flughafen
+  flughafen-datadashboard:
+    container_name: flughafen-datadashboard
     build:
       context: ../../system-tests/DataDashboard
     volumes:
-      - ../resources/appconfig/airplane:/usr/share/nginx/html/assets/config
+      - ../resources/appconfig/flughafen:/usr/share/nginx/html/assets/config
     depends_on:
-      airplane:
+      flughafen:
         condition: service_healthy
     ports:
       - "7082:80"

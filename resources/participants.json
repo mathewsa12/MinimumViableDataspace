@@ -1,19 +1,19 @@
 {
   "include": [
     {
-      "participant": "controltower",
+      "participant": "service",
       "region": "eu",
       "country": "FR",
       "data_dashboard_theme": "theme-1"
     },
     {
-      "participant": "bridge",
+      "participant": "versicherung",
       "region": "eu",
       "country": "DE",
       "data_dashboard_theme": "theme-2"
     },
     {
-      "participant": "airplane",
+      "participant": "flughafen",
       "region": "us",
       "country": "US",
       "data_dashboard_theme": "theme-3"

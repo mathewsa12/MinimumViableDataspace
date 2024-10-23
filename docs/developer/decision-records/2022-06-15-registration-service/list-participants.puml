@@ -1,23 +1,23 @@
 @startuml
 autonumber "<b>0'.'"
-box "Controltower" #LightBlue
-Participant "Controltower\nEDC" as Controltower
-Participant "Controltower\nDID Document" as DID1
-Participant "Controltower\nIdentity Hub" as IDHUB1
+box "service" #LightBlue
+Participant "service\nEDC" as service
+Participant "service\nDID Document" as DID1
+Participant "service\nIdentity Hub" as IDHUB1
 end box
 box "Dataspace Authority" #LightYellow
 Participant "Dataspace\nDID Document" as DID0
 Participant "Registration Service" as RAPI
 Database "Participants\nStore" as Registry
 end box
-box "Bridge (, 3, etc.)" #LightCyan
-Participant "Bridge\nDID Document" as DID2
-Participant "Bridge\nEDC" as Bridge
+box "versicherung (, 3, etc.)" #LightCyan
+Participant "versicherung\nDID Document" as DID2
+Participant "versicherung\nEDC" as versicherung
 end box
 
-Controltower -> DID0: Get registry endpoint
-Controltower -> RAPI ++: List participants:\n - DID JWS\n - Hub Token
-activate Controltower
+service -> DID0: Get registry endpoint
+service -> RAPI ++: List participants:\n - DID JWS\n - Hub Token
+activate service
 group authorize request [Distributed authorization sub-flow]
   RAPI -> DID1
   RAPI -> IDHUB1
@@ -25,7 +25,7 @@ end
 RAPI -> RAPI: apply access policy
 RAPI -> Registry: query participants
 return participants (list of DID URIs)
-Controltower -> DID2: Get DID Document (contains URL of Bridge EDC Catalog Endpoint)
-deactivate Controltower
+service -> DID2: Get DID Document (contains URL of versicherung EDC Catalog Endpoint)
+deactivate service
 
 @enduml

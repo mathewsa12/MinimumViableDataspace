@@ -37,9 +37,9 @@ The profile `ui` creates three Data Dashboards each connected to an EDC particip
 Each of these Data Dashboards uses the respective `app.config.json` file which is stored in the 
 respective directories:
 
-- [`./system-tests/resources/appconfig/controltower/app.config.json`](./system-tests/resources/appconfig/controltower/app.config.json)
-- [`./system-tests/resources/appconfig/bridge/app.config.json`](./system-tests/resources/appconfig/bridge/app.config.json)
-- [`./system-tests/resources/appconfig/airplane/app.config.json`](./system-tests/resources/appconfig/airplane/app.config.json)
+- [`./system-tests/resources/appconfig/service/app.config.json`](./system-tests/resources/appconfig/service/app.config.json)
+- [`./system-tests/resources/appconfig/versicherung/app.config.json`](./system-tests/resources/appconfig/versicherung/app.config.json)
+- [`./system-tests/resources/appconfig/flughafen/app.config.json`](./system-tests/resources/appconfig/flughafen/app.config.json)
 
 That's it to run the local development environment. The following section `Run A Standard Scenario Locally` describes a
 standard scenario which can be optionally used with the local development environment.
@@ -50,7 +50,7 @@ standard scenario which can be optionally used with the local development enviro
 
 > Note: The container `cli-tools` will turn into the state `healthy` after registering successfully all participants and
 > will keep running as an entrypoint to the services created by Docker compose. This is useful for local development in order
-> to manually check commands against the participants (e.g. `controltower`, `bridge`, `airplane`).
+> to manually check commands against the participants (e.g. `service`, `versicherung`, `flughafen`).
 
 Sample how to enter the container `cli-tools` and test a command manually.
 
@@ -66,8 +66,8 @@ Container:
 java -jar registration-service-cli.jar \
 >    -d=did:web:did-server:registration-service \
 >    --http-scheme \
->    -k=/resources/vault/controltower/private-key.pem \
->    -c=did:web:did-server:controltower \
+>    -k=/resources/vault/service/private-key.pem \
+>    -c=did:web:did-server:service \
 >    participants get
 ```
 
@@ -75,7 +75,7 @@ Output (container)
 
 ```json
 {
-  "did": "did:web:did-server:controltower",
+  "did": "did:web:did-server:service",
   "status": "ONBOARDED"
 }
 ```
@@ -84,8 +84,8 @@ Output (container)
 
 Prerequisite: create a test document manually:
 
-- Connect to the **local** blob storage account (provided by Azurite) of controltower.
-    - Storage account name: `controltowerassets`, storage account key: `key1`.
+- Connect to the **local** blob storage account (provided by Azurite) of service.
+    - Storage account name: `serviceassets`, storage account key: `key1`.
     - [Microsoft Azure Storage Explorer](https://azure.microsoft.com/features/storage-explorer/) can be used to connect to the local
       storage account on `localhost:10000`.
 - Create a container named `src-container`. (Container name is defined for Postman request `Publish Master Data`
@@ -96,7 +96,7 @@ Prerequisite: create a test document manually:
 All this can also be done using Azure CLI with the following lines from the root of the MVD repository:
 
 ```bash
-conn_str="DefaultEndpointsProtocol=http;AccountName=controltowerassets;AccountKey=key1;BlobEndpoint=http://127.0.0.1:10000/controltowerassets;"
+conn_str="DefaultEndpointsProtocol=http;AccountName=serviceassets;AccountKey=key1;BlobEndpoint=http://127.0.0.1:10000/serviceassets;"
 az storage container create --name src-container --connection-string $conn_str
 az storage blob upload -f ./deployment/azure/terraform/modules/participant/sample-data/text-document.txt --container-name src-container --name text-document.txt --connection-string $conn_str
 ```
@@ -118,19 +118,19 @@ Finished[#############################################################]  100.000
 
 The following steps initiate and complete a file transfer with the provided test document.
 
-- Open the website of controltower (e.g. <http://localhost:7080>) and verify the existence of two assets in the
+- Open the website of service (e.g. <http://localhost:7080>) and verify the existence of two assets in the
   section `Assets`.
-- Open the website of the bridge (e.g. <http://localhost:7081>) and verify six existing assets from all participants in
+- Open the website of the versicherung (e.g. <http://localhost:7081>) and verify six existing assets from all participants in
   the `Catalog Browser`.
-    - In the `Catalog Browser` click `Negotiate` for the asset `test-document_controltower`.
+    - In the `Catalog Browser` click `Negotiate` for the asset `test-document_service`.
         - There should be a message `Contract Negotiation complete! Show me!` in less than a minute.
 - From the previous message click `Show me!`. If you missed it, switch manually to the section `Contracts`.
     - There should be a new contract. Click `Transfer` to initiate the transfer process.
     - A dialog should open. Here, select as destination `AzureStorage` and click `Start transfer`.
     - There should be a message `Transfer [id] complete! Show me!` in less than a minute. (Where `id` is a UUID.)
-- To verify the successful transfer the Storage Explorer can be used to look into the storage account of `bridge`.
+- To verify the successful transfer the Storage Explorer can be used to look into the storage account of `versicherung`.
     - Storage account name and key is set in `system-tests/docker-compose.yml` for the service `azurite`. Default name
-      is `bridgeassets`, key is `key2`.
+      is `versicherungassets`, key is `key2`.
     - There should be new container in the storage account containing two files `.complete` and `text-document.txt`.
 
 ## Contributing

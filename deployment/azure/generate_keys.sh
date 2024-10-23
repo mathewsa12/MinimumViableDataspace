@@ -1,6 +1,6 @@
 #!/bin/bash
 
-participants=("controltower" "bridge" "airplane")
+participants=("service" "versicherung" "flughafen")
 
 OUTPUTDIR="terraform"
 

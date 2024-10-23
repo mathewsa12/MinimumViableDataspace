@@ -49,13 +49,13 @@ class RegistrationServiceNodeDirectoryTest {
 
     @Test
     void getAll() {
-        var controltower = getParticipant();
-        var bridge = getParticipant();
+        var service = getParticipant();
+        var versicherung = getParticipant();
         var node1 = node();
         var node2 = node();
-        when(registryApi.listParticipants()).thenReturn(ApiResult.success(List.of(controltower, bridge)));
-        when(resolver.toFederatedCacheNode(controltower)).thenReturn(Result.success(node1));
-        when(resolver.toFederatedCacheNode(bridge)).thenReturn(Result.success(node2));
+        when(registryApi.listParticipants()).thenReturn(ApiResult.success(List.of(service, versicherung)));
+        when(resolver.toFederatedCacheNode(service)).thenReturn(Result.success(node1));
+        when(resolver.toFederatedCacheNode(versicherung)).thenReturn(Result.success(node2));
 
         var cacheNodes = directory.getAll();
         assertThat(cacheNodes)
@@ -65,12 +65,12 @@ class RegistrationServiceNodeDirectoryTest {
 
     @Test
     void getAll_failureResolvingDid() {
-        var controltower = getParticipant();
-        var bridge = getParticipant();
+        var service = getParticipant();
+        var versicherung = getParticipant();
         var node1 = node();
-        when(registryApi.listParticipants()).thenReturn(ApiResult.success(List.of(controltower, bridge)));
-        when(resolver.toFederatedCacheNode(controltower)).thenReturn(Result.success(node1));
-        when(resolver.toFederatedCacheNode(bridge)).thenReturn(Result.failure("failure"));
+        when(registryApi.listParticipants()).thenReturn(ApiResult.success(List.of(service, versicherung)));
+        when(resolver.toFederatedCacheNode(service)).thenReturn(Result.success(node1));
+        when(resolver.toFederatedCacheNode(versicherung)).thenReturn(Result.failure("failure"));
 
         var cacheNodes = directory.getAll();
         assertThat(cacheNodes)

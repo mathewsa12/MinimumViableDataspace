@@ -2,29 +2,29 @@ version: "3.9"
 services:
 
   # EDC Connector to simulate a dataspace participant acting as a data provider which is located in EU.
-  controltower:
-    container_name: controltower
+  service:
+    container_name: service
     build:
       context: ../launchers/connector
       args:
         JVM_ARGS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
     environment:
-      EDC_DSP_CALLBACK_ADDRESS: http://controltower:8282/api/dsp
-      EDC_CONNECTOR_NAME: controltower
-      EDC_PARTICIPANT_ID: did:web:did-server:controltower
+      EDC_DSP_CALLBACK_ADDRESS: http://service:8282/api/dsp
+      EDC_CONNECTOR_NAME: service
+      EDC_PARTICIPANT_ID: did:web:did-server:service
 
       EDC_BLOBSTORE_ENDPOINT_TEMPLATE: "http://azurite:10000/%s"
-      EDC_IDENTITY_DID_URL: did:web:did-server:controltower
-      EDC_VAULT: /resources/vault/controltower/controltower-vault.properties
-      EDC_KEYSTORE: /resources/vault/controltower/controltower-keystore.jks
-      EDC_SELF_DESCRIPTION_DOCUMENT_PATH: /resources/self-description/controltower/sdd.json
+      EDC_IDENTITY_DID_URL: did:web:did-server:service
+      EDC_VAULT: /resources/vault/service/service-vault.properties
+      EDC_KEYSTORE: /resources/vault/service/service-keystore.jks
+      EDC_SELF_DESCRIPTION_DOCUMENT_PATH: /resources/self-description/service/sdd.json
       EDC_KEYSTORE_PASSWORD: test123
       EDC_API_AUTH_KEY: ApiKeyDefaultValue
       EDC_IAM_DID_WEB_USE_HTTPS: "false"
       EDC_CATALOG_CACHE_EXECUTION_DELAY_SECONDS: 5
       EDC_CATALOG_CACHE_EXECUTION_PERIOD_SECONDS: 5
       EDC_CATALOG_CACHE_PARTITION_NUM_CRAWLERS: 5
-      EDC_DATAPLANE_TOKEN_VALIDATION_ENDPOINT: http://controltower:8383/api/control/token
+      EDC_DATAPLANE_TOKEN_VALIDATION_ENDPOINT: http://service:8383/api/control/token
       REGISTRATION_SERVICE_API_URL: http://registration-service:8184/api/authority
       EDC_WEB_REST_CORS_ENABLED: "true"
       EDC_WEB_REST_CORS_HEADERS: "origin,content-type,accept,authorization,x-api-key"
@@ -41,29 +41,29 @@ services:
       - ./resources:/resources
 
   # EDC Connector to simulate a dataspace participant acting as a data consumer which is located in EU.
-  bridge:
-    container_name: bridge
+  versicherung:
+    container_name: versicherung
     build:
       context: ../launchers/connector
       args:
         JVM_ARGS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006"
     environment:
-      EDC_DSP_CALLBACK_ADDRESS: http://bridge:8282/api/dsp
-      EDC_CONNECTOR_NAME: bridge
-      EDC_PARTICIPANT_ID: did:web:did-server:bridge
+      EDC_DSP_CALLBACK_ADDRESS: http://versicherung:8282/api/dsp
+      EDC_CONNECTOR_NAME: versicherung
+      EDC_PARTICIPANT_ID: did:web:did-server:versicherung
 
       EDC_BLOBSTORE_ENDPOINT_TEMPLATE: "http://azurite:10000/%s"
-      EDC_IDENTITY_DID_URL: did:web:did-server:bridge
-      EDC_VAULT: /resources/vault/bridge/bridge-vault.properties
-      EDC_KEYSTORE: /resources/vault/bridge/bridge-keystore.jks
-      EDC_SELF_DESCRIPTION_DOCUMENT_PATH: /resources/self-description/bridge/sdd.json
+      EDC_IDENTITY_DID_URL: did:web:did-server:versicherung
+      EDC_VAULT: /resources/vault/versicherung/versicherung-vault.properties
+      EDC_KEYSTORE: /resources/vault/versicherung/versicherung-keystore.jks
+      EDC_SELF_DESCRIPTION_DOCUMENT_PATH: /resources/self-description/versicherung/sdd.json
       EDC_KEYSTORE_PASSWORD: test123
       EDC_API_AUTH_KEY: ApiKeyDefaultValue
       EDC_IAM_DID_WEB_USE_HTTPS: "false"
       EDC_CATALOG_CACHE_EXECUTION_DELAY_SECONDS: 5
       EDC_CATALOG_CACHE_EXECUTION_PERIOD_SECONDS: 5
       EDC_CATALOG_CACHE_PARTITION_NUM_CRAWLERS: 5
-      EDC_DATAPLANE_TOKEN_VALIDATION_ENDPOINT: http://bridge:8383/api/control/token
+      EDC_DATAPLANE_TOKEN_VALIDATION_ENDPOINT: http://versicherung:8383/api/control/token
       REGISTRATION_SERVICE_API_URL: http://registration-service:8184/api/authority
       EDC_WEB_REST_CORS_ENABLED: "true"
       EDC_WEB_REST_CORS_HEADERS: "origin,content-type,accept,authorization,x-api-key"
@@ -80,29 +80,29 @@ services:
       - ./resources:/resources
 
   # EDC Connector to simulate a dataspace participant acting as a consumer which is located in US.
-  airplane:
-    container_name: airplane
+  flughafen:
+    container_name: flughafen
     build:
       context: ../launchers/connector
       args:
         JVM_ARGS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5007"
     environment:
-      EDC_DSP_CALLBACK_ADDRESS: http://airplane:8282/api/dsp
-      EDC_CONNECTOR_NAME: airplane
-      EDC_PARTICIPANT_ID: did:web:did-server:airplane
+      EDC_DSP_CALLBACK_ADDRESS: http://flughafen:8282/api/dsp
+      EDC_CONNECTOR_NAME: flughafen
+      EDC_PARTICIPANT_ID: did:web:did-server:flughafen
 
       EDC_BLOBSTORE_ENDPOINT_TEMPLATE: "http://azurite:10000/%s"
-      EDC_IDENTITY_DID_URL: did:web:did-server:airplane
-      EDC_VAULT: /resources/vault/airplane/airplane-vault.properties
-      EDC_KEYSTORE: /resources/vault/airplane/airplane-keystore.jks
-      EDC_SELF_DESCRIPTION_DOCUMENT_PATH: /resources/self-description/airplane/sdd.json
+      EDC_IDENTITY_DID_URL: did:web:did-server:flughafen
+      EDC_VAULT: /resources/vault/flughafen/flughafen-vault.properties
+      EDC_KEYSTORE: /resources/vault/flughafen/flughafen-keystore.jks
+      EDC_SELF_DESCRIPTION_DOCUMENT_PATH: /resources/self-description/flughafen/sdd.json
       EDC_KEYSTORE_PASSWORD: test123
       EDC_API_AUTH_KEY: ApiKeyDefaultValue
       EDC_IAM_DID_WEB_USE_HTTPS: "false"
       EDC_CATALOG_CACHE_EXECUTION_DELAY_SECONDS: 5
       EDC_CATALOG_CACHE_EXECUTION_PERIOD_SECONDS: 5
       EDC_CATALOG_CACHE_PARTITION_NUM_CRAWLERS: 5
-      EDC_DATAPLANE_TOKEN_VALIDATION_ENDPOINT: http://airplane:8383/api/control/token
+      EDC_DATAPLANE_TOKEN_VALIDATION_ENDPOINT: http://flughafen:8383/api/control/token
       REGISTRATION_SERVICE_API_URL: http://registration-service:8184/api/authority
       EDC_WEB_REST_CORS_ENABLED: "true"
       EDC_WEB_REST_CORS_HEADERS: "origin,content-type,accept,authorization,x-api-key"
@@ -129,15 +129,15 @@ services:
     working_dir: /
     environment:
       API_KEY: ApiKeyDefaultValue
-      EDC_HOST: controltower:bridge:airplane
-      ASSETS_STORAGE_ACCOUNT: controltowerassets:bridgeassets:airplaneassets
-      PARTICIPANT_ID: controltower:bridge:airplane
+      EDC_HOST: service:versicherung:flughafen
+      ASSETS_STORAGE_ACCOUNT: serviceassets:versicherungassets:flughafenassets
+      PARTICIPANT_ID: service:versicherung:flughafen
     depends_on:
-      controltower:
+      service:
         condition: service_healthy
-      bridge:
+      versicherung:
         condition: service_healthy
-      airplane:
+      flughafen:
         condition: service_healthy
 
   # A nginx based HTTP server to serve dataspace participants DIDs.
@@ -156,7 +156,7 @@ services:
     ports:
       - 10000:10000
     environment:
-      AZURITE_ACCOUNTS: controltowerassets:key1;bridgeassets:key2;airplaneassets:key3
+      AZURITE_ACCOUNTS: serviceassets:key1;versicherungassets:key2;flughafenassets:key3
 
   # Dataspace registration service authority.
   registration-service:
@@ -193,52 +193,52 @@ services:
       - ./resources:/resources
       - ../resources:/common-resources
     depends_on:
-      controltower:
+      service:
         condition: service_healthy
-      bridge:
+      versicherung:
         condition: service_healthy
-      airplane:
+      flughafen:
         condition: service_healthy
       registration-service:
         condition: service_healthy
 
-  # Data Dashboard (MVD UI) for participant controltower
-  controltower-datadashboard:
-    container_name: controltower-datadashboard
+  # Data Dashboard (MVD UI) for participant service
+  service-datadashboard:
+    container_name: service-datadashboard
     build:
       context: ${MVD_UI_PATH}
     volumes:
-      - ./resources/appconfig/controltower:/usr/share/nginx/html/assets/config
+      - ./resources/appconfig/service:/usr/share/nginx/html/assets/config
     depends_on:
-      controltower:
+      service:
         condition: service_healthy
     ports:
       - "7080:80"
     profiles: ["ui"]
 
-      # Data Dashboard (MVD UI) for participant bridge
-  bridge-datadashboard:
-    container_name: bridge-datadashboard
+      # Data Dashboard (MVD UI) for participant versicherung
+  versicherung-datadashboard:
+    container_name: versicherung-datadashboard
     build:
       context: ${MVD_UI_PATH}
     volumes:
-      - ./resources/appconfig/bridge:/usr/share/nginx/html/assets/config
+      - ./resources/appconfig/versicherung:/usr/share/nginx/html/assets/config
     depends_on:
-      bridge:
+      versicherung:
         condition: service_healthy
     ports:
       - "7081:80"
     profiles: ["ui"]
 
-  # Data Dashboard (MVD UI) for participant airplane
-  airplane-datadashboard:
-    container_name: airplane-datadashboard
+  # Data Dashboard (MVD UI) for participant flughafen
+  flughafen-datadashboard:
+    container_name: flughafen-datadashboard
     build:
       context: ${MVD_UI_PATH}
     volumes:
-      - ./resources/appconfig/airplane:/usr/share/nginx/html/assets/config
+      - ./resources/appconfig/flughafen:/usr/share/nginx/html/assets/config
     depends_on:
-      airplane:
+      flughafen:
         condition: service_healthy
     ports:
       - "7082:80"

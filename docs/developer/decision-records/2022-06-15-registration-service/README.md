@@ -32,60 +32,60 @@ Operations that will be supported in future versions of the Registration Service
 
 #### Participants
 
-1. _Controltower_, an entity which intends to become a Dataspace participant
+1. _service_, an entity which intends to become a Dataspace participant
 2. _The Dataspace Authority_, which manages the enrollment process
 
 #### Overview
 
-A Client for _Controltower_ initiates the enrollment process by resolving and contacting the enrollment API endpoint for the _Dataspace Authority_. (The client could be e.g. a CLI utility.)
+A Client for _service_ initiates the enrollment process by resolving and contacting the enrollment API endpoint for the _Dataspace Authority_. (The client could be e.g. a CLI utility.)
 
-_The Dataspace Authority_ enrollment service obtains Verifiable Credentials (VCs) from _Controltower_ to determine whether it meets enrollment policies. The enrollment service then issues a Verifiable Credential that establishes membership and pushes it to _Company 1's_ Identity Hub, and stores membership and certificate information.
+_The Dataspace Authority_ enrollment service obtains Verifiable Credentials (VCs) from _service_ to determine whether it meets enrollment policies. The enrollment service then issues a Verifiable Credential that establishes membership and pushes it to _Company 1's_ Identity Hub, and stores membership and certificate information.
 
 In simple scenarios, enrollment could be fast and fully automated. However, in advanced scenarios, enrollment policies could require interactions with external systems, and even manual processes, therefore, it is implemented asynchronously.
 
 #### Pre-conditions
 
-1. _Controltower_ has deployed an Identity Hub service, and a DID Document containing the Identity Hub URL.
-2. _Controltower_ knows the DID URL of the Dataspace it intends to join.
-3. The _Controltower_ Identity Hub contains VCs that satisfy _the Dataspace Authority_ enrollment policy. In MVD, a credential `{"gaiaXMember": "true"}` is seeded for each deployed participant, signed by a fake GAIA-X authority.
+1. _service_ has deployed an Identity Hub service, and a DID Document containing the Identity Hub URL.
+2. _service_ knows the DID URL of the Dataspace it intends to join.
+3. The _service_ Identity Hub contains VCs that satisfy _the Dataspace Authority_ enrollment policy. In MVD, a credential `{"gaiaXMember": "true"}` is seeded for each deployed participant, signed by a fake GAIA-X authority.
 
 #### Post-conditions
 
-1. The _Controltower_ Identity Hub contains a VC signed by _the Dataspace Authority_, that establishes membership in _Dataspace D_. This is used by other participants to authorize requests from _Controltower_.
-2. The _Controltower_ DID URL is stored in the Registration Service Participants Store. This is used to serve participant requests.
+1. The _service_ Identity Hub contains a VC signed by _the Dataspace Authority_, that establishes membership in _Dataspace D_. This is used by other participants to authorize requests from _service_.
+2. The _service_ DID URL is stored in the Registration Service Participants Store. This is used to serve participant requests.
 
 #### Flow sequence
 
 ![dataspace-enrollment](dataspace-enrollment.png)
 
-1. The Client for _Controltower_ initiates the enrollment process based on the Dataspace DID URL. It retrieves the DID Document, and parses it to retrieve Dataspace
+1. The Client for _service_ initiates the enrollment process based on the Dataspace DID URL. It retrieves the DID Document, and parses it to retrieve Dataspace
    enrollment HTTP endpoint.
-2. The client needs access to the _Controltower_ Private Key to sign a JWS. The client sends an HTTP request to _the Dataspace Authority_ enrollment endpoint. The
+2. The client needs access to the _service_ Private Key to sign a JWS. The client sends an HTTP request to _the Dataspace Authority_ enrollment endpoint. The
    request is accepted for asynchronous processing.
 3. The Registration Service uses the [Distributed authorization sub-flow](../2022-06-16-distributed-authorization/README.md) to authenticate the 
    request...
-4. ... and retrieves credentials from _Controltower's_ Identity Hub.
+4. ... and retrieves credentials from _service's_ Identity Hub.
 5. The Registration Service stores participant information in its store. This includes Company 1's DID URL.
 6. The Registration Service authorizes the request by applying the Dataspace enrollment policy on the obtained Verifiable Credentials. In MVD, the service checks for a credential `{"gaiaXMember": "true"}` signed by any issuer (as the EDC policy engine does not currently allow restricting trusting claims to specific issuers).
 7. The Registration Service updates the status of the participant's membership indicating that the participant's onboarding is successful/failed.
 8. The Registration Service issues and signs a membership Verifiable Credential.
-9. The Registration Service sends the Verifiable Credential to _Controltower's_ Identity Hub for storage. It uses the Identity Hub bearer token (from the Distributed authorization
+9. The Registration Service sends the Verifiable Credential to _service's_ Identity Hub for storage. It uses the Identity Hub bearer token (from the Distributed authorization
    sub-flow) to authenticate the request.
-10. _Controltower's_ Identity Hub validates the bearer token and stores the membership Verifiable Credential.
+10. _service's_ Identity Hub validates the bearer token and stores the membership Verifiable Credential.
 
 ### 2. List participants
 
 #### Participants
 
-1. _Controltower_, a Dataspace Participant with a Dataspace Connector (e.g. EDC application) that wants to discover IDS endpoints (e.g. in order to list contract offers)
+1. _service_, a Dataspace Participant with a Dataspace Connector (e.g. EDC application) that wants to discover IDS endpoints (e.g. in order to list contract offers)
 2. _The Dataspace Authority_, which manages Dataspace memberships
-3. _Bridge_, _Airplane_, etc., Dataspace Participants
+3. _versicherung_, _flughafen_, etc., Dataspace Participants
 
 #### Overview
 
 A typical EDC deployment caches contract offers from other participants in a federated catalog, so that users can quickly browse and negotiate contracts. To regularly retrieve offers, it regularly contacts the Registration Service to refresh its list of Dataspace Participants, then obtains contract offers from each participants to refresh its cache.
 
-In this flow, the EDC for _Controltower_ obtains a list of Dataspace Participants and resolves their IDS endpoints.
+In this flow, the EDC for _service_ obtains a list of Dataspace Participants and resolves their IDS endpoints.
 
 #### Pre-conditions
 
@@ -95,16 +95,16 @@ Participants are registered as (currently valid) Dataspace Participants
 
 ![list-participants](list-participants.png)
 
-1. The EDC for _Controltower_ determines the Registration Service endpoint from the Dataspace DID Document.
-2. The EDC for _Controltower_ issues a request to the Registration Service, to list participants.
+1. The EDC for _service_ determines the Registration Service endpoint from the Dataspace DID Document.
+2. The EDC for _service_ issues a request to the Registration Service, to list participants.
 3. The Registration Service uses the [Distributed authorization sub-flow](../2022-06-16-distributed-authorization/README.md) to authenticate the 
    request...
-4. ... and retrieves Verifiable Presentations from _Controltower's_ Identity Hub.
+4. ... and retrieves Verifiable Presentations from _service's_ Identity Hub.
 5. The Registration Service authorizes the request by applying the access policy on the obtained Verifiable Presentations. For example, the caller must be a valid
    Dataspace Participant.
 6. The Registration Service obtains the list of Dataspace Participant DID URIs from its storage...
-7. ... and returns it synchronously to the caller (_Controltower_ EDC).
-8. The EDC for _Controltower_ iterates through the Participants' DID URIs, and retrieves the collection of their IDS endpoints from their DID Documents.
+7. ... and returns it synchronously to the caller (_service_ EDC).
+8. The EDC for _service_ iterates through the Participants' DID URIs, and retrieves the collection of their IDS endpoints from their DID Documents.
 
 ## References
 

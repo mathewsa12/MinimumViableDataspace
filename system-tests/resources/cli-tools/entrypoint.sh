@@ -64,7 +64,7 @@ function awaitParticipantRegistration() {
 
 # Read participants from participants.json file.
 # $participants will contain participants and regions in a shell readable format e.g.:
-# 'controltower' 'eu' \n 'bridge' 'eu' \n 'airplane' 'us'
+# 'service' 'eu' \n 'versicherung' 'eu' \n 'flughafen' 'us'
 participants=$(jq -r '.include | map([.participant, .region])[] | @sh' /common-resources/participants.json)
 
 # Seed VCs and register participants.

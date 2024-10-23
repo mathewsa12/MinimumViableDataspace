@@ -35,9 +35,9 @@ public class TransferLocalSimulation extends Simulation {
     public static final String API_KEY_HEADER = "x-api-key";
     public static final String API_KEY = TestUtils.requiredPropOrEnv("API_KEY", "ApiKeyDefaultValue");
     public static final String CONSUMER_MANAGEMENT_URL = TestUtils.requiredPropOrEnv("CONSUMER_MANAGEMENT_URL", "http://localhost:9192") + "/api/management";
-    public static final String CONSUMER_ID = "did:web:did-server:bridge";
-    public static final String PROVIDER_ID = "did:web:did-server:controltower";
-    public static final String PROVIDER_DSP_URL = TestUtils.requiredPropOrEnv("PROVIDER_IDS_URL", "http://controltower:8282/api/dsp");
+    public static final String CONSUMER_ID = "did:web:did-server:versicherung";
+    public static final String PROVIDER_ID = "did:web:did-server:service";
+    public static final String PROVIDER_DSP_URL = TestUtils.requiredPropOrEnv("PROVIDER_IDS_URL", "http://service:8282/api/dsp");
     private static final int REPEAT = Integer.parseInt(propOrEnv("repeat", "1"));
     private static final int AT_ONCE_USERS = Integer.parseInt(propOrEnv("at.once.users", "1"));
     private static final int MAX_RESPONSE_TIME = Integer.parseInt(propOrEnv("max.response.time", "5000"));

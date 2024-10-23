@@ -1,0 +1,44 @@
+{
+  "id": "did:web:did-server:flughafen",
+  "@context": [
+    "https://www.w3.org/ns/did/v1",
+    {
+      "@base": "did:web:did-server:flughafen"
+    }
+  ],
+  "service": [
+    {
+      "id": "#identity-hub-url",
+      "type": "IdentityHub",
+      "serviceEndpoint": "http://flughafen:7171/api/identity/identity-hub"
+    },
+    {
+      "id": "#dsp-url",
+      "type": "DSPMessaging",
+      "serviceEndpoint": "http://flughafen:8282/api/dsp"
+    },
+    {
+      "id": "#self-description-url",
+      "type": "SelfDescription",
+      "serviceEndpoint": "http://flughafen:7171/api/identity/identity-hub/self-description"
+    }
+  ],
+  "verificationMethod": [
+    {
+      "id": "#my-key-1",
+      "controller": "",
+      "type": "EcdsaSecp256k1VerificationKey2019",
+      "publicKeyJwk":{
+        "kty": "EC",
+        "kid": "qEsbGmQ1i8RNHiKmbbM5EARWnFbHAk6VVRq5uxHTxsY",
+        "crv": "P-256",
+        "x": "viGKsI4zJWL69Qqe8QEl_dk_lVqRgOpVSoQlDj3iQ_M",
+        "y": "IIWVgflbkj-rEHHLLeiMg_1sIEbne0cXAuY0N3kUfDI"
+      }
+          
+    }
+  ],
+  "authentication": [
+    "#my-key-1"
+  ]
+}

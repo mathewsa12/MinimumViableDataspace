@@ -39,38 +39,38 @@ module "dataspace" {
 module "participant1" {
   source                   = "./modules/participant"
   prefix                   = var.res_prefix
-  participant_name         = "controltower"
+  participant_name         = "service"
   participant_region       = "eu"
   participant_country      = "FR"
-  resource_group           = "rg-${var.res_prefix}-controltower"
+  resource_group           = "rg-${var.res_prefix}-service"
   application_sp_client_id = var.application_sp_client_id
   application_sp_object_id = var.application_sp_object_id
-  public_key_jwk_file      = "${path.module}/generated/controltower/participant.public.jwk"
-  private_key_pem_file     = "${path.module}/generated/controltower/participant.pem"
+  public_key_jwk_file      = "${path.module}/generated/service/participant.public.jwk"
+  private_key_pem_file     = "${path.module}/generated/service/participant.pem"
 }
 
 module "participant2" {
   source                   = "./modules/participant"
   prefix                   = var.res_prefix
-  participant_name         = "bridge"
+  participant_name         = "versicherung"
   participant_region       = "eu"
   participant_country      = "DE"
-  resource_group           = "rg-${var.res_prefix}-bridge"
+  resource_group           = "rg-${var.res_prefix}-versicherung"
   application_sp_client_id = var.application_sp_client_id
   application_sp_object_id = var.application_sp_object_id
-  public_key_jwk_file      = "${path.module}/generated/bridge/participant.public.jwk"
-  private_key_pem_file     = "${path.module}/generated/bridge/participant.pem"
+  public_key_jwk_file      = "${path.module}/generated/versicherung/participant.public.jwk"
+  private_key_pem_file     = "${path.module}/generated/versicherung/participant.pem"
 }
 
 module "participant3" {
   source                   = "./modules/participant"
   prefix                   = var.res_prefix
-  participant_name         = "airplane"
+  participant_name         = "flughafen"
   participant_region       = "us"
   participant_country      = "US"
-  resource_group           = "rg-${var.res_prefix}-airplane"
+  resource_group           = "rg-${var.res_prefix}-flughafen"
   application_sp_client_id = var.application_sp_client_id
   application_sp_object_id = var.application_sp_object_id
-  public_key_jwk_file      = "${path.module}/generated/airplane/participant.public.jwk"
-  private_key_pem_file     = "${path.module}/generated/airplane/participant.pem"
+  public_key_jwk_file      = "${path.module}/generated/flughafen/participant.public.jwk"
+  private_key_pem_file     = "${path.module}/generated/flughafen/participant.pem"
 }

@@ -18,17 +18,17 @@ variable "application_sp_client_secret" {
 variable "participants" {
   default = [
     {
-      "name" : "controltower"
+      "name" : "service"
       "country" : "FR"
       "region" : "eu"
     },
     {
-      "name" : "bridge"
+      "name" : "versicherung"
       "country" : "DE"
       "region" : "eu"
     },
     {
-      "name" : "airplane"
+      "name" : "flughafen"
       "country" : "US"
       "region" : "us"
     }

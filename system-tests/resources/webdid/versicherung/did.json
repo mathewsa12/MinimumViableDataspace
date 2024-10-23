@@ -1,0 +1,43 @@
+{
+  "id": "did:web:did-server:versicherung",
+  "@context": [
+    "https://www.w3.org/ns/did/v1",
+    {
+      "@base": "did:web:did-server:versicherung"
+    }
+  ],
+  "service": [
+    {
+      "id": "#identity-hub-url",
+      "type": "IdentityHub",
+      "serviceEndpoint": "http://versicherung:7171/api/identity/identity-hub"
+    },
+    {
+      "id": "#dsp-url",
+      "type": "DSPMessaging",
+      "serviceEndpoint": "http://versicherung:8282/api/dsp"
+    },
+    {
+      "id": "#self-description-url",
+      "type": "SelfDescription",
+      "serviceEndpoint": "http://versicherung:7171/api/identity/identity-hub/self-description"
+    }
+  ],
+  "verificationMethod": [
+    {
+      "id": "#my-key-1",
+      "controller": "",
+      "type": "EcdsaSecp256k1VerificationKey2019",
+      "publicKeyJwk": {
+        "kty": "EC",
+        "kid": "Llx01LZOWdLlpl8tfkgVBDz6Z4dic3zd7yMDFaP_JJM",
+        "crv": "P-256",
+        "x": "m7DuEtArO_jOaWfbEFjUUyiSBm21mlYG9_pMqhKPc5A",
+        "y": "vulXLDumlelj5yCWgfiZE7R-OvsbG7ItvFfRazEoVw0"
+      }
+    }
+  ],
+  "authentication": [
+    "#my-key-1"
+  ]
+}
